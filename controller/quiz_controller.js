@@ -18,13 +18,21 @@ exports.index = function(req, res) {
   //búsqueda
   var inputValueSearch = (req.query.search || "texto_a_buscar");
   var search = '%';
+  var inputValueSearch_tema = (req.query.search_tema || "texto_a_buscar");
+  var search_tema = '%';  
   
   if(req.query.search) {
       search=search+req.query.search+'%';
       search=search.replace(/\s+/g,'%');
   }
+
+  if(req.query.search_tema) {
+      search_tema=search_tema+req.query.search_tema+'%';
+      search_tema=search_tema.replace(/\s+/g,'%');
+  }
+
   models.Quiz.findAll(
-    { where: ["lower(pregunta) like lower(?)",search],
+    { where: ["lower(pregunta) like lower(?) and lower(tema) like lower(?)", search, search_tema],
       order: 'pregunta ASC'
     } 
   ).then(function(quizes){
