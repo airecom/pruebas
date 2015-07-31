@@ -2,7 +2,7 @@ var models = require('../models/models.js');
 
 // Autoload - factoriza el cÃ³digo si ruta incluye :quizId
 exports.load = function(req, res, next, quizId) {
-    models.Quiz.find({
+  models.Quiz.find({
             where: {
                 id: Number(quizId)
             },
@@ -10,11 +10,12 @@ exports.load = function(req, res, next, quizId) {
                 model: models.Comment
             }]
         }).then(function(quiz) {
+      if (quiz) {
         req.quiz = quiz;
         next();
-      } else { next(new Error('No existe quizId=' + quizId)); }
+      } else{next(new Error('No existe quizId=' + quizId))}
     }
-  ).catch(function(error) { next(error);});
+  ).catch(function(error){next(error)});
 };
 
 // GET /quizes
