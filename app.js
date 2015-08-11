@@ -39,7 +39,6 @@ app.use(function(req, res, next) {
   // Hacer visible req.session en las vistas
     if (req.session.user) {
         if (Date.now() - req.session.user.lastRequestTime > 60000) {
-            req.session.errors = [{"message": 'Sesión expirada'}];
             delete req.session.user;
         } else {
             req.session.user.lastRequestTime = Date.now();
