@@ -37,14 +37,20 @@ app.use(function(req, res, next) {
   }
 
   // Hacer visible req.session en las vistas
-    if (req.session.user) {
-        if (Date.now() - req.session.user.lastRequestTime > 60000) {
-            delete req.session.user;
-        } else {
-            req.session.user.lastRequestTime = Date.now();
-        }
-    }
+  res.locals.session = req.session;
   next();
+});
+
+// Auto-logout
+app.use(function(req, res, next) {
+    if (req.session.user) {
+    if (Date.now() - req.session.user.lastRequestTime > 60000) {
+        delete req.session.user;
+    } else {
+        req.session.user.lastRequestTime = Date.now();
+    }
+    }
+    next();
 });
 
 app.use('/', routes);
