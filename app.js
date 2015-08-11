@@ -42,7 +42,6 @@ app.use(function(req, res, next) {
             delete req.session.user;
         } else {
             req.session.user.lastRequestTime = Date.now();
-            res.locals.session = req.session;
         }
     }
   next();
